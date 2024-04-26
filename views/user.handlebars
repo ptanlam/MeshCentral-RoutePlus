@@ -348,8 +348,8 @@ function updateSelTable() {
           if (item.protoTxt == 'undefined' || item.protoTxt == null) item.protoTxt = 'Custom';
           item.checkedHtml = item.rdplink === true ? 'checked' : '';
           if (item.protoTxt != 'Custom' && item.protoTxt != 'RDP') item.checkedHtml = 'disabled';
-          let tpl = `<td>${nodeMap[myComputer.node].name}</td>
-            <td><div class="nIcon j${nodeMap[item.toNode].icon}"></div>${nodeMap[item.toNode].name}</td>
+          let tpl = `<td><div class="nIcon j${nodeMap[item.toNode].icon}"></div>${nodeMap[item.toNode].name}</td>
+            <td>${nodeMap[myComputer.node].name}</td>
             <td>${item.protoTxt}</td>
             <td>${item.toIPTxt}</td>
             <td>${item.port}</td>
