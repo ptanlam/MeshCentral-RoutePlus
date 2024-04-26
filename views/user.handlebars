@@ -139,7 +139,7 @@
     <div id="selectedContainer">
       <span class="header">Active Mappings</span>
       <table id="nodeSelTbl">
-          <tr><th>Node</th><th>Protocol</th><th>Dest IP</th><th>Dest Port</th><th>Source Port</th><th title="Checking this box displays this as an RDP download link on the device home screen">RDP Link?</th><th>Remove</th></tr>
+          <tr><th>Node</th><th>Destination</th><th>Protocol</th><th>Dest IP</th><th>Dest Port</th><th>Source Port</th><th title="Checking this box displays this as an RDP download link on the device home screen">RDP Link?</th><th>Remove</th></tr>
       </table>
     </div>
 </div>
@@ -348,7 +348,8 @@ function updateSelTable() {
           if (item.protoTxt == 'undefined' || item.protoTxt == null) item.protoTxt = 'Custom';
           item.checkedHtml = item.rdplink === true ? 'checked' : '';
           if (item.protoTxt != 'Custom' && item.protoTxt != 'RDP') item.checkedHtml = 'disabled';
-          let tpl = `<td><div class="nIcon j${nodeMap[item.toNode].icon}"></div>${nodeMap[item.toNode].name}</td>
+          let tpl = `<td>${nodeMap[myComputer.node].name}</td>
+            <td><div class="nIcon j${nodeMap[item.toNode].icon}"></div>${nodeMap[item.toNode].name}</td>
             <td>${item.protoTxt}</td>
             <td>${item.toIPTxt}</td>
             <td>${item.port}</td>
