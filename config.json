@@ -1,6 +1,6 @@
 {
   "name": "RoutePlus2",
-  "shortName": "routeplus2",
+  "shortName": "routeplus",
   "version": "0.1.5",
   "author": "Ryan Blenis",
   "description": "Route ports directly from and to any node.",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/ptanlam/MeshCentral-RoutePlus",
   "changelogUrl": "https://raw.githubusercontent.com/ptanlam/MeshCentral-RoutePlus/feature/add-destination-column/changelog.md",
   "configUrl": "https://raw.githubusercontent.com/ptanlam/MeshCentral-RoutePlus/feature/add-destination-column/config.json",
-  "downloadUrl": "https://github.com/ptanlam/MeshCentral-RoutePlus/archive/feature/add-destination-column.zip",
+  "downloadUrl": "https://github.com/ptanlam/MeshCentral-RoutePlus/archive/refs/heads/feature/add-destination-column.zip",
   "repository": {
     "type": "git",
     "url": "https://github.com/ptanlam/MeshCentral-RoutePlus.git"
