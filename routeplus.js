@@ -312,7 +312,7 @@ module.exports.routeplus = function (parent) {
         var newMapId = null,
           myComp = null;
         obj.db
-          .addMap(command.user, command.toNode, command.port, command.srcport, command.forceSrcPort, command.toIP)
+          .addMap(command.user, command.fromNode, command.toNode, command.port, command.srcport, command.forceSrcPort, command.toIP)
           .then((newMapInfo) => {
             newMapId = newMapInfo.insertedId;
             return obj.db.getUserMaps(command.user);
@@ -333,7 +333,8 @@ module.exports.routeplus = function (parent) {
               obj.meshServer.loginCookieEncryptionKey,
             );
 
-            obj.startRoute(myComp, maps[0], rcookie);
+            // * Change logic to start route from specific Node instead of the My Computer
+            obj.startRoute(command.fromNode, maps[0], rcookie);
           })
           .catch((e) => console.log('PLUGIN: RoutePlus: Error adding a map: ', e));
         break;

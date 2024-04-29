@@ -218,6 +218,7 @@ function addMap(el) {
         'plugin': 'routeplus',
         'pluginaction': 'addMap',
         'user': parent.userinfo._id,
+        'fromNode': myComputer.node,
         'toNode': nodeId,
         'toIP': destIP.value == '' ? null : destIP.value,
         'port': parseInt(port.value),
