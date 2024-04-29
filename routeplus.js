@@ -345,52 +345,6 @@ module.exports.routeplus = function (parent) {
         // obj.userLoggedIn();
         break;
       case 'setMyComputer':
-        // // remove mappings from current computer first
-        // obj.db
-        //   .getMyComputer(command.user)
-        //   .then((mys) => {
-        //     if (mys.length == 0) return Promise.resolve();
-        //     var my = mys[0];
-        //     return obj.db
-        //       .getUserMaps(mys[0].user)
-        //       .then((maps) => {
-        //         obj.debug('PLUGIN', 'RoutePlus', 'setMyComputer maps length: ' + maps.length);
-        //         if (maps.length == 0) return Promise.resolve();
-        //         maps.forEach(function (map) {
-        //           obj.endRoute(map._id);
-        //         });
-        //         return Promise.resolve();
-        //       })
-        //       .catch((e) => console.log('PLUGIN: RoutePlus: setMyComputer user map changing failed with: ', e));
-        //   })
-        //   .then(() => {
-        //     return obj.db.setMyComputer({
-        //       user: command.user,
-        //       node: command.node,
-        //     });
-        //   })
-        //   .then(() => { // update new MyComputer with mappings
-        //       return obj.db.getUserMaps(command.user)
-        //           .then(maps => {
-        //               if (maps.length == 0) return Promise.resolve();
-        //               var uinfo = command.user.split('/');
-        //               var rcookie = parent.parent.encodeCookie({ userid: command.user, domainid: uinfo[1] }, obj.meshServer.loginCookieEncryptionKey);
-        //               maps.forEach(function(map) {
-        //                   obj.startRoute(command.node, map, rcookie);
-        //               });
-        //               return Promise.resolve();
-        //           })
-        //           .catch(e => console.log('PLUGIN: RoutePlus: setMyComputer user map adding failed with: ', e));
-        //   })
-        //   .then(() => {
-        //     // update front end
-        //     obj.db.getMyComputer(command.user).then((rows) => {
-        //       if (rows.length) {
-        //         var x = { action: 'plugin', plugin: 'routeplus', method: 'myComputerUpdate', data: rows[0] };
-        //         myparent.ws.send(JSON.stringify(x));
-        //       }
-        //     });
-        //   });
         obj.db
           .setMyComputer({
             user: command.user,
