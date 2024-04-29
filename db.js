@@ -120,7 +120,8 @@ module.exports.CreateDB = function(meshserver) {
         Datastore = require('@yetzt/nedb');
         if (obj.filex == null) {
             obj.filex = new Datastore({ filename: meshserver.getConfigFilePath('plugin-routeplus.db'), autoload: true });
-            obj.filex.persistence.setAutocompactionInterval(40000);
+            // ! This causes the unexpected behavior when customize this Plugin
+            // obj.filex.persistence.setAutocompactionInterval(40000);
             obj.filex.ensureIndex({ fieldName: 'user' });
         }
         obj.file = new NEMongo(obj.filex);

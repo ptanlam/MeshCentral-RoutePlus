@@ -112,7 +112,9 @@ module.exports.routeplus = function (parent) {
         if (maps.length == 0) return;
         maps.forEach((map) => {
           //if (obj.onlineNodes.indexOf(fromNode) === -1) return; // skip offline nodes
-          obj.startRoute(myComp, map, rcookie);
+          // * Instead of mapping the My Computer to the Destination
+          // * We will map the Source to Destination
+          obj.startRoute(map.fromNode, map, rcookie);
         });
       })
       .catch((e) => console.log('PLUGIN: RoutePlus: Error starting routes for user ' + user._id + '. Error was: ', e));
@@ -136,9 +138,10 @@ module.exports.routeplus = function (parent) {
                   { userid: my.user, domainid: uinfo[1] },
                   obj.meshServer.loginCookieEncryptionKey,
                 );
-                maps.forEach(function (map) {
-                  obj.startRoute(my.node, map, rcookie);
-                });
+                // * Due to new requirement, mapping the My Comp to Destination is unnecessary
+                // maps.forEach(function (map) {
+                //   obj.startRoute(my.node, map, rcookie);
+                // });
               }
             })
             .catch((e) => console.log('PLUGIN: RoutePlus: Error adding routes to agent on checkin 1: ', e));
