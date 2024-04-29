@@ -169,7 +169,8 @@ function doOnLoad() {
     updateMyComputer();
 }
 parent.pluginHandler.routeplus.myComputerUpdate = function(state, msg) {
-    loadMyComputer(msg);
+    loadMyComputer(msg)
+    updateSelTable();
 }
 function loadMyComputer(msg) {
     myComputer = msg.data;
