@@ -53,15 +53,15 @@ module.exports.CreateDB = function(meshserver) {
         obj.setMyComputer = function(opts) {
             return obj.getMyComputer(opts.user)
             .then(ms => {
-                // if (ms.length) {
-                //     return obj.update( ms[0]._id, { node: opts.node } );
-                // } else {
+                if (ms.length) {
+                    return obj.update( ms[0]._id, { node: opts.node } );
+                } else {
                     return obj.file.insertOne({
                         type: 'myComputer',
                         node: opts.node,
                         user: opts.user
                     });
-                // }
+                }
             })
         };
         obj.addMap = function(user, toNode, port, srcport, forceSrcPort, toIP) {
