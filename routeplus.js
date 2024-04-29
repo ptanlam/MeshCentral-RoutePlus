@@ -391,6 +391,20 @@ module.exports.routeplus = function (parent) {
         //       }
         //     });
         //   });
+        obj.db
+          .setMyComputer({
+            user: command.user,
+            node: command.node,
+          })
+          .then(() => {
+            // update front end
+            obj.db.getMyComputer(command.user).then((rows) => {
+              if (rows.length) {
+                var x = { action: 'plugin', plugin: 'routeplus', method: 'myComputerUpdate', data: rows[0] };
+                myparent.ws.send(JSON.stringify(x));
+              }
+            });
+          });
         break;
       case 'updateMapPort':
         obj.debug('PLUGIN', 'RoutePlus', 'Updating mapped port for ' + command.mid + ' to ' + command.port);
