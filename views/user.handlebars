@@ -8,16 +8,14 @@
     }
     #routePlusUser {
       background-color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
     #allContainer {
-      width: 35%;
-      height: 100%;
       display: table-cell;
     }
     #selectedContainer {
-      width: 35%;
-      max-width: 500px;
-      height: 100%;
       display: table-cell;
     }
     #nodeTbl, #nodeSelTbl {
@@ -25,8 +23,7 @@
         width: 100%;
     }
     #nodeTbl td, #nodeSelTbl td {
-        padding-left: 5px;
-        padding-right: 5px;
+        text-align: center;
     }
     .nodeRow, .selRow {
         height: 36px;
@@ -125,21 +122,16 @@
     Leave this blank for a randomly assigned port.
 </div>
 <div id="routePlusUser">
-    <div id="myCompC">
-        <span class="iheader">My Computer:</span> 
-        <span id="myComp"></span> 
-        <!-- span id="magicPortC"><label><input type="checkbox" onchange="magicChange();"> Magic Port</label></span -->
-    </div>
     <div id="allContainer">
         <span class="header">Node Selection</span>
         <table id="nodeTbl">
-            <tr><th>Set as Mine</th><th>Node</th><th>Protocol</th><th>Dest IP</th><th>Dest Port</th><th>Source Port</th><th>Add</th></tr>
+            <tr><th>Source</th><th>Destination</th><th>Protocol</th><th>Dest IP</th><th>Dest Port</th><th>Source Port</th><th></th></tr>
         </table>
     </div>
     <div id="selectedContainer">
       <span class="header">Active Mappings</span>
       <table id="nodeSelTbl">
-          <tr><th>Source</th><th>Node</th><th>Protocol</th><th>Dest IP</th><th>Dest Port</th><th>Source Port</th><th title="Checking this box displays this as an RDP download link on the device home screen">RDP Link?</th><th>Remove</th></tr>
+          <tr><th>Source</th><th>Destination</th><th>Protocol</th><th>Dest IP</th><th>Dest Port</th><th>Source Port</th><th title="Checking this box displays this as an RDP download link on the device home screen">RDP Link?</th><th>Remove</th></tr>
       </table>
     </div>
 </div>
@@ -158,6 +150,10 @@ for (const [p, v] of Object.entries(protoMap)) {
     protoOpts += '<option value="' + p + '">' + v + '</option>';
 }
 protoOpts += '<option value="other">Other</option>';
+var nodeOpts = '<option value=""> - Node</option>';
+parent.nodes.forEach((node) => {
+    nodeOpts += '<option value="' + node._id + '">' + node.name + '</option>';
+});
 var nodeMap = {};
 
 function doOnLoad() {
@@ -199,16 +195,13 @@ function setMyComputer(el) {
     });
 }
 function addMap(el) {
-    if (myComputer == null) {
-        parent.setDialogMode(2, "Oops!", 1, null, "You must first set a computer as your own before adding a map."); 
-        return;
-    }
     var row = el.parentNode.parentNode, 
         destIP = row.querySelectorAll('.destIP')[0],
         port = row.querySelectorAll('.otherInp')[0],
         srcport = row.querySelectorAll('.sourcePortInp')[0],
         proto = row.querySelectorAll('.protoSel')[0],
-        nodeId = row.getAttribute('x-data-id');
+        fromNode = row.querySelectorAll('.sourceSel')[0],
+        toNode = row.querySelectorAll('.destSel')[0];
     if (proto.value == '') {
         parent.setDialogMode(2, "Oops!", 1, null, "Please select a protocol/port to map."); 
         return;
@@ -218,8 +211,8 @@ function addMap(el) {
         'plugin': 'routeplus',
         'pluginaction': 'addMap',
         'user': parent.userinfo._id,
-        'fromNode': myComputer.node,
-        'toNode': nodeId,
+        'fromNode': fromNode.value,
+        'toNode': toNode.value,
         'toIP': destIP.value == '' ? null : destIP.value,
         'port': parseInt(port.value),
         'srcport': parseInt(srcport.value),
@@ -291,16 +284,13 @@ function updateNodesTable() {
   });
   
   var nodeTbl = document.querySelector('#nodeTbl');
-  parent.nodes.forEach(function(i) {
-      var item = {...i, ...{}};
-      if (item.mtype == 2) {
-          /*if (item['meshnamel'] == '*') {
-              item.meshName = 'Individual Devices';
-          } else {
-              item.meshName = parent.meshes[item['meshid']].name;
-          }*/
-          let tpl = `<td><a class="setMine" onclick="setMyComputer(this);">Set</td>
-            <td><div class="nIcon j${item.icon}"></div>${item.name}</td>
+  let tpl = `
+            <td><select class="sourceSel">
+                ${nodeOpts}
+            </select></td>
+            <td><select class="destSel">
+                ${nodeOpts}
+            </select></td>
             <td><select onchange="protoChange(this);" class="protoSel">
                 ${protoOpts}
             </select></td>
@@ -308,12 +298,10 @@ function updateNodesTable() {
             <td><input class="otherInp" type="text" value="" disabled></td>
             <td><input class="sourcePortInp" type="text" value=""></td>
             <td><a class="addMap" onclick="addMap(this);">Add</td>`;
-          let tr = nodeTbl.insertRow(-1);
-          tr.innerHTML = tpl;
-          tr.setAttribute('x-data-id', item._id);
-          tr.classList.add('nodeRow');
-      }
-  });
+  let tr = nodeTbl.insertRow(-1);
+  tr.innerHTML = tpl;
+  tr.classList.add('nodeRow');
+
   var warnings = nodeTbl.getElementsByClassName("sourcePortInp");
   var spw = Q('sourcePortWarning');
   for (var i = 0; i < warnings.length; i++) {
